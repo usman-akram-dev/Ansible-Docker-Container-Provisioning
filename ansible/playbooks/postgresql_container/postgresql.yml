@@ -13,7 +13,7 @@
       become: true
       command: docker build -t postgres .
       args:
-        chdir: /home/cypher/Semester8/Devops/Project#1/check/playbooks/postgresql_container
+        chdir: ../postgresql_container
       when: container_exists.stdout == "0"
 
     - name: Create & Run a Docker container
