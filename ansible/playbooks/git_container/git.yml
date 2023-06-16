@@ -1,0 +1,43 @@
+- name: Create and start a Docker container with Git
+  hosts: localhost
+  become: true
+  tasks:
+    - name: Check if Git container already exists
+      become: true
+      shell: docker ps -a --format '{{ "{{.Names}}" }}' | grep my-git-container | wc -l
+      register: container_exists
+      changed_when: false
+
+    - name: Build the Docker image
+      command: docker build -t git .
+      args:
+        chdir: /home/cypher/Semester8/Devops/Project#1/check/playbooks/git_container
+      when: container_exists.stdout == "0"
+
+    - name: Create & Run a Docker container
+      command: docker run -itd --name my-git-container git /bin/sh
+      register: container_output
+      when: container_exists.stdout == "0"
+      
+    - name: Check Git version
+      command: docker exec my-git-container git --version
+      register: git_version_output
+      
+    - name: Print Git version
+      debug:
+        var: git_version_output.stdout
+
+    - name: Push to Git
+      block:
+        - name: Clone repository
+          shell: |
+            git clone https://x-token-auth:ATCTT3xFfGN0-SRVP3mPhH9mmGA_KLUmHnHZ9suzTupBMJI_biaB2S5wyOYL22r2KKaUUgUKEf4TemwzpMezdl2fogYkfWaKpnTZBDqILULgaHvBOz1BBhkZLY3uGGMdpm77wYGV9uCptO2Sd99yThSHDWwh3125f9BVSB9Cc3_okJ6BpnjblQk=F97EB094@bitbucket.org/dsu-devops/project-1.git
+            sudo chmod -R 777 project-1
+            cd project-1
+            git config user.email 712020:2c98e1a7-4794-4d26-a504-8906dad72c4e@bots.bitbucket.org
+            echo "DevOps Project 1 Demo" >> cs191078-usman.txt
+            git fetch
+            git pull
+            git add cs191078-usman.txt
+            git commit -m "add file with my name"
+            git push origin master

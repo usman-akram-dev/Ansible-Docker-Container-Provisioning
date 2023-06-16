@@ -1,0 +1,15 @@
+---
+- name: Run all playbooks
+  hosts: localhost
+  gather_facts: true
+
+  tasks:
+    - name: Execute postgres playbook
+      command: ansible-playbook -i invenotry /home/cypher/Semester8/Devops/Project#1/check/playbooks/postgresql_container/postgresql.yml
+
+    - name: Execute apache playbook
+      command: ansible-playbook -i invenotry /home/cypher/Semester8/Devops/Project#1/check/playbooks/git_container/git.yml
+
+    - name: Execute git playbook
+      command: ansible-playbook -i invenotry /home/cypher/Semester8/Devops/Project#1/check/playbooks/apache_container/apache.yml
+

@@ -1,0 +1,79 @@
+- name: Provision PostgreSQL container
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Check if PostgreSQL container already exists
+      become: true
+      shell: docker ps -a --format '{{ "{{.Names}}" }}' | grep my-postgres-container | wc -l
+      register: container_exists
+      changed_when: false
+
+    - name: Build Docker image
+      become: true
+      command: docker build -t postgres .
+      args:
+        chdir: /home/cypher/Semester8/Devops/Project#1/check/playbooks/postgresql_container
+      when: container_exists.stdout == "0"
+
+    - name: Create & Run a Docker container
+      become: true
+      command: docker run -d -p 5432:5432 --name my-postgres-container postgres
+      when: container_exists.stdout == "0"
+
+    - name: Wait for PostgreSQL to start
+      become: true
+      wait_for:
+        host: localhost
+        port: 5432
+        delay: 5
+        timeout: 60
+
+    - name: Create database
+      become: true
+      postgresql_db:
+        name: DevOps
+        login_user: postgres
+        login_password: example_password
+        login_host: localhost
+        port: 5432
+        state: present
+
+    - name: Check if students table exists
+      become: true
+      postgresql_query:
+        db: DevOps
+        login_user: postgres
+        login_password: example_password
+        login_host: localhost
+        port: 5432
+        query: "SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'students');"
+      register: table_exists
+      changed_when: false
+
+    - name: Create students table if it doesn't exist
+      become: true
+      postgresql_query:
+        db: DevOps
+        login_user: postgres
+        login_password: example_password
+        login_host: localhost
+        port: 5432
+        query: |
+          CREATE TABLE students (
+            id SERIAL PRIMARY KEY,
+            first_name TEXT,
+            last_name TEXT,
+            reg_number TEXT
+          );
+      when: table_exists.query_result == [] or not table_exists.query_result[0].exists
+
+    - name: Insert students into table
+      become: true
+      postgresql_query:
+        db: DevOps
+        login_user: postgres
+        login_password: example_password
+        login_host: localhost
+        port: 5432
+        query: "INSERT INTO students (first_name, last_name, reg_number) VALUES ('Muhammad Usman', 'Akram', 'cs191078'), ('Saad Ahmed', 'Khanzada', 'cs191054'), ('Usama', 'Saeed', 'cs191084'), ('Abdul', 'Wasay', 'cs181021')"

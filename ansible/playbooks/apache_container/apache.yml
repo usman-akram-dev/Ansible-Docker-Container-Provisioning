@@ -1,0 +1,30 @@
+- name: Provision Apache container
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Check if Apache container already exists
+      become: true
+      shell: docker ps -a --format '{{ "{{.Names}}" }}' | grep my-apache-container | wc -l
+      register: container_exists
+      changed_when: false
+
+    - name: Build Docker image
+      become: true
+      command: docker build -t apache .
+      args:
+        chdir: /home/cypher/Semester8/Devops/Project#1/check/playbooks/apache_container
+      when: container_exists.stdout == "0"
+
+    - name: Run Docker container
+      become: true
+      command: docker run -d -p 80:80 --name my-apache-container-instance apache
+      when: container_exists.stdout == "0"
+
+    - name: Ping Apache
+      command: curl -I 127.0.0.1
+      register: curl_output
+
+    - name: Apache Response
+      debug:
+        var: curl_output.stdout_lines[0]
