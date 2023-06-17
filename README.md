@@ -8,3 +8,6 @@ Develop a project that uses Ansible to provision 3 containers using Docker and c
 **For Second Container:** Using Ansible, ping the URL for Apache and get a 200 response.
 
 **For Third Container:** Using Ansible, make a file with your name and add some text to it. Push the change and the change should be visible on BitBucket.
+
+**Architecture:**
+![image (4)](https://github.com/usman-akram-dev/DevOps-Project-1/assets/7351877/26879a8a-8c57-43ad-a11f-972a712e790c)
