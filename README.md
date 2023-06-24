@@ -8,20 +8,20 @@ This project demonstrates the use of Ansible to provision and configure three co
 
 The problem statement for this project is as follows:
 
-**1. Provision three containers using Ansible and Docker.**
+**1.** Provision three containers using Ansible and Docker.
 
-**2. Configure the first container with PostgreSQL, the second container with Apache, and the third container with Git.**
+**2.** Configure the first container with PostgreSQL, the second container with Apache, and the third container with Git.
 
-**3. For the PostgreSQL container:**
+**3.** For the PostgreSQL container:
       Create a database named "DevOps" using Ansible.
       Create a table named "students" in the "DevOps" database.
       Insert a list of students enrolled in the DevOps class, including their first name, last name, and registration number.
 
-**4. For the Apache container:**
+**4.** For the Apache container:
 
       Ping the Apache URL and verify a 200 response.
 
-**5. For the Git container:**
+**5.** For the Git container:
 
       Create a file with your name.
       Add some text to the file.
