@@ -1,15 +1,56 @@
-# DevOps-Project-1
+**Ansible Docker Container Provisioning and Configuration Project**
 
-**Problem Statement:**
-Develop a project that uses Ansible to provision 3 containers using Docker and configure the first container with PostgreSQL, second container with Apache and third container with Git.
+**Overview**
 
-**For First Container:** Using Ansible, CREATE a database in PostgreSQL with name DevOps and table “students” and INSERT the list of students enrolled in DevOps class along with their First Name, Last Name and Registration Number.
+This project demonstrates the use of Ansible to provision and configure three containers using Docker. The containers are provisioned with specific configurations: one for PostgreSQL, one for Apache, and one for Git. The objective is to showcase the power and capabilities of Ansible in automating the setup and configuration of containers.
 
-**For Second Container:** Using Ansible, ping the URL for Apache and get a 200 response.
+**Problem Statement**
 
-**For Third Container:** Using Ansible, make a file with your name and add some text to it. Push the change and the change should be visible on BitBucket.
+The problem statement for this project is as follows:
 
-**Architecture:**
+**1. Provision three containers using Ansible and Docker.**
 
-![image (4)](https://github.com/usman-akram-dev/DevOps-Project-1/assets/7351877/0fb47ae1-8996-4c29-bec0-0906475e1c19)
+**2. Configure the first container with PostgreSQL, the second container with Apache, and the third container with Git.**
 
+**3. For the PostgreSQL container:**
+      Create a database named "DevOps" using Ansible.
+      Create a table named "students" in the "DevOps" database.
+      Insert a list of students enrolled in the DevOps class, including their first name, last name, and registration number.
+
+**4. For the Apache container:**
+
+      Ping the Apache URL and verify a 200 response.
+
+**5. For the Git container:**
+
+      Create a file with your name.
+      Add some text to the file.
+      Push the change to a BitBucket repository.
+      Verify that the change is visible on BitBucket.
+      
+**Project Architecture**
+
+![image (4)](https://github.com/usman-akram-dev/DevOps-Project-1/assets/7351877/6a6b95e5-6ce3-4d6d-a725-5e594b363608)
+
+**Project Components**
+
+The project consists of the following components:
+
+**1.** Provisioning Playbook: This playbook uses Ansible's Docker modules to create three containers - one for PostgreSQL, one for Apache, and one for Git.
+
+**2.** PostgreSQL Playbook: This playbook uses Ansible's PostgreSQL module to:
+        Create a database named "DevOps".
+        Create a table named "students" in the "DevOps" database.
+        Insert the list of students enrolled in the DevOps class.
+        
+**3.** Apache Playbook: This playbook uses Ansible's URI module to ping the Apache URL and verify a 200 response code.
+
+**4.** Git Playbook: This playbook uses Ansible's Git module to:
+        Clone a BitBucket repository.
+        Create a file with your name using Ansible's File module.
+        Add text to the file.
+        Commit and push the change to the BitBucket repository.
+
+**Conclusion**
+
+This project showcases the capabilities of Ansible in automating the provisioning and configuration of containers. By using Ansible playbooks, we can easily set up a PostgreSQL database, verify the availability of Apache, and perform Git operations. Ansible simplifies the management and deployment of applications by providing a declarative language to define infrastructure as code.
